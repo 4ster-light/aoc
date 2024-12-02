@@ -3,31 +3,25 @@
 (require racket/file)
 
 (define (calculate-total-distance left right)
-  (define sorted-left (sort left <))
-  (define sorted-right (sort right <))
-  ;; Calculate the total distance
-  (foldl + 0 (map (λ (pair) (abs (- (car pair) (cdr pair))))
-                  (map cons sorted-left sorted-right))))
+  (let* ([sorted-left (sort left <)]
+         [sorted-right (sort right <)])
+    (foldl + 0 
+           (map (λ (pair) (abs (- (car pair) (cdr pair))))
+                (map cons sorted-left sorted-right)))))
 
 (define (read-lists filename)
-  (define lines (file->lines filename))
-  ;; Split each line into left and right numbers
-  (define parsed-lines
-    (map (λ (line)
-           ;; Split the line by three spaces
-           (let ([split-line (string-split line "   ")])
-             (list (string->number (first split-line))
-                   (string->number (second split-line)))))
-         lines))
-  ;; Separate the numbers into two lists
-  (define left (map first parsed-lines))
-  (define right (map second parsed-lines))
-  (values left right))
+  (let ([lines (file->lines filename)])
+    (let ([parsed-lines (map (λ (line)
+                               (let ([split-line (string-split line "   ")])
+                                 (list (string->number (first split-line))
+                                       (string->number (second split-line)))))
+                             lines)])
+      (values (map first parsed-lines) (map second parsed-lines)))))
 
 (define (main)
-  (define input-file "input.txt") ;; Specify the input file
-  (define-values (left right) (read-lists input-file))
-  (define total-distance (calculate-total-distance left right))
-  (displayln total-distance))
+  (let* ([input-file "input.txt"])
+    (let-values ([(left right) (read-lists input-file)])
+      (let ([total-distance (calculate-total-distance left right)])
+        (displayln total-distance)))))
 
 (main)
