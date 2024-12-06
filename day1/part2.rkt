@@ -2,6 +2,13 @@
 
 (require racket/file)
 
+;; Parse a single line into two numbers
+(define (parse-line line)
+  (let ([split-line (string-split line "   ")])
+    (list (string->number (first split-line))
+          (string->number (second split-line)))))
+
+;; Calculate similarity score
 (define (calculate-similarity left right)
   (let ([right-count (make-hash)])
     ;; Count occurrences in the right list
@@ -9,19 +16,15 @@
     ;; Calculate the similarity score
     (foldl (λ (num acc) (+ acc (* num (hash-ref right-count num 0)))) 0 left)))
 
-(define (read-lists filename)
-  (let ([lines (file->lines filename)])
-    (let ([parsed-lines (map (λ (line)
-                               (let ([split-line (string-split line "   ")])
-                                 (list (string->number (first split-line))
-                                       (string->number (second split-line)))))
-                             lines)])
-      (values (map first parsed-lines) (map second parsed-lines)))))
+;; Main function that reads file, processes input, and prints solution
+(define (main filename)
+  (let* ([lines (file->lines filename)]
+         [parsed-lines (map parse-line lines)]
+         [left (map first parsed-lines)]
+         [right (map second parsed-lines)]
+         [similarity-score (calculate-similarity left right)])
+    (displayln similarity-score)))
 
-(define (main)
-  (let* ([input-file "input.txt"])
-    (let-values ([(left right) (read-lists input-file)])
-      (let ([similarity-score (calculate-similarity left right)])
-        (displayln similarity-score)))))
-
-(main)
+;; Run main with input file if this is the main module
+(module+ main
+  (main "input.txt"))

@@ -3,8 +3,8 @@ import sys
 from argparse import ArgumentParser, Namespace
 
 DEFAULT_FILES: dict[str, str] = {
-    "README.md": "# Advent of Code Challenge",
     "input.txt": "",
+    "output.md": "# SOLUTIONS\n\n## Part 1\n\n\n\n## Part 2\n\n\n",
     "part1.rkt": "#lang racket\n\n;; Solve Part 1\n\n\n",
     "part2.rkt": "#lang racket\n\n;; Solve Part 2\n\n\n",
 }
