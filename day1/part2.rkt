@@ -16,7 +16,7 @@
     ;; Calculate the similarity score
     (foldl (λ (num acc) (+ acc (* num (hash-ref right-count num 0)))) 0 left)))
 
-;; Main function that reads file, processes input, and prints solution
+;; Read file, process, and print solution
 (define (main filename)
   (let* ([lines (file->lines filename)]
          [parsed-lines (map parse-line lines)]
@@ -25,6 +25,5 @@
          [similarity-score (calculate-similarity left right)])
     (displayln similarity-score)))
 
-;; Run main with input file if this is the main module
 (module+ main
   (main "input.txt"))

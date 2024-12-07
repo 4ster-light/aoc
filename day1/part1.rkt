@@ -16,7 +16,7 @@
                    (sort left <)
                    (sort right <)))))
 
-;; Main function that reads file, processes input, and prints solution
+;; Read file, process, and print solution
 (define (main filename)
   (let* ([lines (file->lines filename)]
          [parsed-lines (map parse-line lines)]
@@ -25,6 +25,5 @@
          [total-distance (calculate-total-distance left right)])
     (displayln total-distance)))
 
-;; Run main with input file if this is the main module
 (module+ main
   (main "input.txt"))

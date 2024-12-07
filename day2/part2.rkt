@@ -13,35 +13,41 @@
       (and (>= diff 1)
            (<= diff 3)))))
 
+;; Check if a report is safe
 (define (safe-report? report)
   (and (monotonic? report)
        (valid-differences? report)))
 
+;; Check if a report is safe with a dampener
 (define (safe-report-with-dampener? report)
   ;; Check if the report is safe without removing any level
-  (when (safe-report? report) #t)
+  (if (safe-report? report)
+      #t
+      ;; Try removing each level and check if the resulting list is safe
+      (for/or ([i (in-range (length report))])
+        (let ([modified-report (append
+                                (take report i)
+                                (drop report (add1 i)))])
+          (and (monotonic? modified-report)
+               (valid-differences? modified-report))))))
 
-  ;; Try removing each level and check if the resulting list is safe
-  (for/or ([i (in-range (length report))])
-    (let ([modified-report (append
-                            (take report i)
-                            (drop report (add1 i)))])
-      (and (monotonic? modified-report)
-           (valid-differences? modified-report)))))
+;; Process the input string into reports
+(define (parse-reports input-string)
+  (map (λ (report-str)
+         (map string->number
+              (string-split report-str)))
+       (filter (λ (s) (not (string=? s "")))
+               (string-split input-string "\n"))))
 
-;; Read input from file and split into reports
-(define (process-input-file filename)
-  (let* ((input-string (file->string filename))
-         (reports (map (λ (report-str)
-                         (map string->number
-                              (string-split report-str)))
-                       (filter (λ (s) (not (string=? s "")))
-                               (string-split input-string "\n")))))
+;; Count safe reports with dampener
+(define (count-safe-reports-with-dampener reports)
+  (length (filter safe-report-with-dampener? reports)))
 
-    ;; Count safe reports
-    (length (filter safe-report-with-dampener? reports))))
+(define (main filename)
+  (let* ([input-string (file->string filename)]
+         [reports (parse-reports input-string)]
+         [result (count-safe-reports-with-dampener reports)])
+    (displayln result)))
 
-(define (main)
-  (displayln (process-input-file "input.txt")))
-
-(main)
+(module+ main
+  (main "input.txt"))

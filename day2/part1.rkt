@@ -13,23 +13,29 @@
       (and (>= diff 1)
            (<= diff 3)))))
 
+;; Determine if a report is safe
 (define (safe-report? report)
   (and (monotonic? report)
        (valid-differences? report)))
 
-;; Read input from file and split into reports
-(define (process-input-file filename)
-  (let* ((input-string (file->string filename))
-         (reports (map (λ (report-str)
-                         (map string->number
-                              (string-split report-str)))
-                       (filter (λ (s) (not (string=? s "")))
-                               (string-split input-string "\n")))))
+;; Process the input string into reports
+(define (parse-reports input-string)
+  (map (λ (report-str)
+         (map string->number
+              (string-split report-str)))
+       (filter (λ (s) (not (string=? s "")))
+               (string-split input-string "\n"))))
 
-    ;; Count safe reports
-    (length (filter safe-report? reports))))
+;; Count safe reports
+(define (count-safe-reports reports)
+  (length (filter safe-report? reports)))
 
-(define (main)
-  (displayln (process-input-file "input.txt")))
+;; Entry point
+(define (main filename)
+  (let* ([input-string (file->string filename)]
+         [reports (parse-reports input-string)]
+         [result (count-safe-reports reports)])
+    (displayln result)))
 
-(main)
+(module+ main
+  (main "input.txt"))
