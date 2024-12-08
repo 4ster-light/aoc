@@ -7,6 +7,8 @@ DEFAULT_FILES: dict[str, str] = {
     "output.md": "# SOLUTIONS\n\n## Part 1\n\n\n\n## Part 2\n\n\n",
     "part1.rkt": "#lang racket\n\n;; Solve Part 1\n\n\n",
     "part2.rkt": "#lang racket\n\n;; Solve Part 2\n\n\n",
+    "part1.exs": "defmodule Part1 do\n  def solve(_filename) do\n    # Solve Part 1\n  end\nend\n\n\n",
+    "part2.exs": "defmodule Part2 do\n  def solve(_filename) do\n    # Solve Part 2\n  end\nend\n\n\n",
 }
 
 def parse_args() -> Namespace:
