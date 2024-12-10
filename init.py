@@ -5,10 +5,15 @@ from argparse import ArgumentParser, Namespace
 DEFAULT_FILES: dict[str, str] = {
     "input.txt": "",
     "output.md": "# SOLUTIONS\n\n## Part 1\n\n\n\n## Part 2\n\n\n",
+    # Racket files
     "part1.rkt": "#lang racket\n\n;; Solve Part 1\n\n\n",
     "part2.rkt": "#lang racket\n\n;; Solve Part 2\n\n\n",
-    "part1.exs": "defmodule Part1 do\n  def solve(_filename) do\n    # Solve Part 1\n  end\nend\n\n\n",
-    "part2.exs": "defmodule Part2 do\n  def solve(_filename) do\n    # Solve Part 2\n  end\nend\n\n\n",
+    # Elixir files
+    "part1.exs": "defmodule Part1 do\n  def solve(_filename) do\n    # Solve Part 1\n  end\nend\n\n\"input.txt\"\n|> Part1.solve()\n|> IO.puts()\n",
+    "part2.exs": "defmodule Part2 do\n  def solve(_filename) do\n    # Solve Part 2\n  end\nend\n\n\"input.txt\"\n|> Part2.solve()\n|> IO.puts()\n",
+    # Lua files
+    "part1.lua": "local function solve(filename)\n  -- Solve Part 1\nend\n\nprint(solve(\"input.txt\"))\n",
+    "part2.lua": "local function solve(filename)\n  -- Solve Part 2\nend\n\nprint(solve(\"input.txt\"))\n",
 }
 
 def parse_args() -> Namespace:

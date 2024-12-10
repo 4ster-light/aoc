@@ -43,11 +43,10 @@
 (define (count-safe-reports-with-dampener reports)
   (length (filter safe-report-with-dampener? reports)))
 
-(define (main filename)
+(define (solve filename)
   (let* ([input-string (file->string filename)]
          [reports (parse-reports input-string)]
          [result (count-safe-reports-with-dampener reports)])
     (displayln result)))
 
-(module+ main
-  (main "input.txt"))
+(solve "input.txt")

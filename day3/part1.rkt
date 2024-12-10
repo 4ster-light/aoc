@@ -32,11 +32,10 @@
 (define (sum-mul-results results)
   (apply + results))
 
-(define (main filename)
+(define (solve filename)
   (let* ([input-string (file->string filename)]
          [mul-results (extract-mul-results input-string)]
          [total (sum-mul-results mul-results)])
     (displayln total)))
 
-(module+ main
-  (main "input.txt"))
+(solve "input.txt")

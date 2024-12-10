@@ -4,4 +4,6 @@ defmodule Part2 do
   end
 end
 
-
+"input.txt"
+|> Part2.solve()
+|> IO.puts()

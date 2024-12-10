@@ -1,16 +1,4 @@
 defmodule Part2 do
-  def solve(filename) do
-    filename
-    |> File.stream!()
-    |> Stream.map(&parse_line/1)
-    |> Enum.to_list()
-    |> then(fn parsed_lines ->
-      left = Enum.map(parsed_lines, &elem(&1, 0))
-      right = Enum.map(parsed_lines, &elem(&1, 1))
-      calculate_similarity(left, right)
-    end)
-  end
-
   defp parse_line(line) do
     line
     |> String.trim()
@@ -25,6 +13,18 @@ defmodule Part2 do
     left
     |> Enum.map(fn num -> num * Map.get(right_count, num, 0) end)
     |> Enum.sum()
+  end
+
+  def solve(filename) do
+    filename
+    |> File.stream!()
+    |> Stream.map(&parse_line/1)
+    |> Enum.to_list()
+    |> then(fn parsed_lines ->
+      left = Enum.map(parsed_lines, &elem(&1, 0))
+      right = Enum.map(parsed_lines, &elem(&1, 1))
+      calculate_similarity(left, right)
+    end)
   end
 end
 

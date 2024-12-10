@@ -31,11 +31,10 @@
   (length (filter safe-report? reports)))
 
 ;; Entry point
-(define (main filename)
+(define (solve filename)
   (let* ([input-string (file->string filename)]
          [reports (parse-reports input-string)]
          [result (count-safe-reports reports)])
     (displayln result)))
 
-(module+ main
-  (main "input.txt"))
+(solve "input.txt")
