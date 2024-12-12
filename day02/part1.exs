@@ -1,9 +1,9 @@
 defmodule Part1 do
-  def monotonic?(lst) do
+  defp monotonic?(lst) do
     Enum.sort(lst) == lst || Enum.sort(lst, :desc) == lst
   end
 
-  def valid_differences?(lst) do
+  defp valid_differences?(lst) do
     lst
     |> Enum.chunk_every(2, 1, :discard)
     |> Enum.all?(fn [a, b] ->
@@ -12,11 +12,11 @@ defmodule Part1 do
     end)
   end
 
-  def safe_report?(report) do
+  defp safe_report?(report) do
     monotonic?(report) && valid_differences?(report)
   end
 
-  def parse_reports(input_string) do
+  defp parse_reports(input_string) do
     input_string
     |> String.split("\n", trim: true)
     |> Enum.map(fn report_str ->
@@ -26,7 +26,7 @@ defmodule Part1 do
     end)
   end
 
-  def count_safe_reports(reports) do
+  defp count_safe_reports(reports) do
     reports
     |> Enum.filter(&safe_report?/1)
     |> Enum.count()
