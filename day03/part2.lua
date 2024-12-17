@@ -1,15 +1,16 @@
-local function solve(filename)
-  local file = io.open(filename, "r")
-  if not file then
-    error("Could not open file: " .. filename)
+local mul_pattern = "mul%s*%(s*([0-9]+)%s*,%s*([0-9]+)%s*%)";
+local do_pattern = "do%(%)";
+local dont_pattern = "don't%(%)";
+
+local function sum_mul_results(results)
+  local total = 0
+  for _, value in ipairs(results) do
+    total = total + value
   end
-  local content = file:read("*all")
-  file:close()
+  return total
+end
 
-  local mul_pattern = "mul%s*%(s*([0-9]+)%s*,%s*([0-9]+)%s*%)";
-  local do_pattern = "do%(%)";
-  local dont_pattern = "don't%(%)";
-
+local function extract_mul_results(content)
   local results = {}
   local enabled = true
 
@@ -41,12 +42,19 @@ local function solve(filename)
       end
     end
   end
+  
+  return sum_mul_results(results)
+end
 
-  local total = 0
-  for _, val in ipairs(results) do
-    total = total + val
+local function solve(filename)
+  local file = io.open(filename, "r")
+  if not file then
+    error("Could not open file: " .. filename)
   end
-  return total
+  local content = file:read("*all")
+  file:close()
+
+  return extract_mul_results(content)
 end
 
 print(solve("input.txt"))

@@ -1,15 +1,4 @@
-local function extract_mul_results(input_string)
-  local results = {}
-  local mul_pattern = "mul%s*%((%s*[0-9]+)%s*,%s*([0-9]+)%s*%)"
-  
-  for x, y in input_string:gmatch(mul_pattern) do
-    local num_x = tonumber(x)
-    local num_y = tonumber(y)
-    table.insert(results, num_x * num_y)
-  end
-  
-  return results
-end
+local mul_pattern = "mul%s*%((%s*[0-9]+)%s*,%s*([0-9]+)%s*%)"
 
 local function sum_mul_results(results)
   local total = 0
@@ -17,6 +6,18 @@ local function sum_mul_results(results)
     total = total + value
   end
   return total
+end
+
+local function extract_mul_results(input_string)
+  local results = {}
+  
+  for x, y in input_string:gmatch(mul_pattern) do
+    local num_x = tonumber(x)
+    local num_y = tonumber(y)
+    table.insert(results, num_x * num_y)
+  end
+  
+  return sum_mul_results(results)
 end
 
 local function solve(filename)
@@ -28,8 +29,7 @@ local function solve(filename)
   local input_string = file:read("*all")
   file:close()
   
-  local mul_results = extract_mul_results(input_string)
-  return sum_mul_results(mul_results)
+  return extract_mul_results(input_string)
 end
 
 print(solve("input.txt"))
